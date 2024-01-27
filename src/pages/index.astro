@@ -1,0 +1,46 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SquarePlaylistCard from "@components/playlist/SquarePlaylistCard.astro";
+import PlaylistCard from "@components/playlist/PlaylistCard.astro";
+import Greeting from "@/components/Greeting.svelte";
+
+import { playlists } from "@/lib/data";
+---
+
+<Layout title="Spotiniz">
+	<div
+		id="playlist-container"
+		class="top-0 relative transition-all duration-100"
+	>
+		<!-- Page Header -->
+
+		<div class="relative z-10 p-6">
+			<!-- Greatings -->
+			<Greeting />
+
+			<div class="grid grid-cols-2 lg:grid-cols-3 gap-2 mb-8">
+				{
+					playlists
+						.slice(0, 6)
+						.map((playlist) => <PlaylistCard playlist={playlist} />)
+				}
+			</div>
+
+			<h2 class="mb-4 text-2xl font-bold">Creado para Nizvan</h2>
+
+			<div
+				class="flex flex-wrap gap-y-16 gap-x-4 justify-between playlist-scroll"
+			>
+				{
+					playlists.map((playlist) => (
+						<SquarePlaylistCard playlist={playlist} />
+					))
+				}
+			</div>
+		</div>
+		<div
+			class="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-900 via-70% to-green-600/30"
+		>
+		</div>
+	</div>
+</Layout>

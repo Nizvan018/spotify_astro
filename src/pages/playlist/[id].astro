@@ -1,0 +1,53 @@
+---
+import Layout from "@layouts/Layout.astro";
+import SquarePlaylistCard from "@components/playlist/SquarePlaylistCard.astro";
+import PlaylistCard from "@components/playlist/PlaylistCard.astro";
+
+import { allPlaylists, playlists, songs } from "@/lib/data";
+
+const { id } = Astro.params;
+
+const playlist = allPlaylists.find((playlist) => playlist.id === id);
+const playlistSongs = songs.filter(
+    (song) => song.albumId === playlist?.albumId,
+);
+---
+
+<Layout title="Spotiniz">
+    <div
+        id="playlist-container"
+        class="relative flex flex-col h-full overflow-x-hidden"
+        transition:name=`playlist ${id} box`
+    >
+        <!-- Page Header -->
+        <header class="flex items-center gap-4 p-6 mt-10">
+            <picture class="aspect-square w-32 lg:w-52 flex-none">
+                <img
+                    src={playlist?.cover}
+                    alt={`Cover of ${playlist?.title}`}
+                    class="object-cover w-full rounded-sm shadow-xl shadow-black/80"
+                    transition:name={`playlist ${playlist?.id} image`}
+                />
+            </picture>
+            <div class="flex flex-col">
+                <span class="text-xs lg:text-sm">Playlist pública</span>
+                <h1 class="mt-2 text-2xl lg:text-7xl font-extrabold">
+                    {playlist?.title}
+                </h1>
+                <p class="mt-4 text-zinc-400 text-xs lg:text-sm">
+                    Esta es la descripción de la playlist
+                </p>
+                <p class="mt-2 text-xs font-bold lg:text-sm">
+                    {playlist?.artists.join(", ")}
+                </p>
+            </div>
+        </header>
+
+        <div class="relative z-10 p-6"></div>
+
+        <div
+            class="-z-10 absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-900 via-70% to-yellow-600/30"
+        >
+        </div>
+    </div>
+</Layout>

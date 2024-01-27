@@ -1,0 +1,22 @@
+---
+type buttonType = "button" | "link";
+
+interface Props {
+    href?: string;
+    type?: buttonType;
+}
+
+const { href, type } = Astro.props;
+---
+
+<li>
+    <a
+        href={href}
+        class:list={[
+            "flex items-center w-fit gap-4 p-2 font-medium text-zinc-400 rounded-full cursor-pointer duration-300 hover:text-zinc-100",
+            type === "button" ? "hover:bg-white/10" : "",
+        ]}
+    >
+        <slot />
+    </a>
+</li>

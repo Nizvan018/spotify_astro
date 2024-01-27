@@ -1,0 +1,89 @@
+---
+// Icons:
+import HomeIcon from "@/icons/HomeIcon.astro";
+import SearchIcon from "@/icons/SearchIcon.astro";
+import LibraryIcon from "@/icons/LibraryIcon.astro";
+import PlusIcon from "@/icons/PlusIcon.astro";
+import ArrowRightIcon from "@/icons/ArrowRightIcon.astro";
+import ListIcon from "@/icons/ListIcon.astro";
+// Componentes:
+import SideMenuItem from "@/components/aside_menu/SideMenuItem.astro";
+import SideCategoryItem from "./SideCategoryItem.astro";
+import SideMenuCard from "@/components/aside_menu/SideMenuCard.astro";
+// Data:
+import { playlists } from "@/lib/data";
+---
+
+<nav class="flex flex-col flex-1 gap-2">
+    <!-- Menú de Inicio y Buscar -->
+    <div class="rounded-lg px-4 py-2 bg-neutral-900">
+        <ul class="flex flex-col gap-1">
+            <SideMenuItem href="/">
+                <HomeIcon />
+                Inicio
+            </SideMenuItem>
+            <SideMenuItem href="/search">
+                <SearchIcon />
+                Buscar
+            </SideMenuItem>
+        </ul>
+    </div>
+
+    <!-- Menú de Tu biblioteca -->
+    <div class="flex-1 rounded-lg px-2 py-2 bg-neutral-900">
+        <!-- Título y botones -->
+        <ul class="flex justify-between">
+            <SideMenuItem href="/library">
+                <LibraryIcon />
+                Tu biblioteca
+            </SideMenuItem>
+            <div class="flex gap-1">
+                <SideMenuItem type="button">
+                    <PlusIcon />
+                </SideMenuItem>
+                <SideMenuItem type="button">
+                    <ArrowRightIcon />
+                </SideMenuItem>
+            </div>
+        </ul>
+
+        <!-- Categorías -->
+        <div class="flex gap-2 mt-4 px-2 category-scroll">
+            <SideCategoryItem category="playlistCategory">
+                Playlist
+            </SideCategoryItem>
+            <SideCategoryItem category="podcastCategory">
+                Podcast y programas
+            </SideCategoryItem>
+            <SideCategoryItem category="podcastCategory">
+                Álbumes
+            </SideCategoryItem>
+            <SideCategoryItem category="podcastCategory">
+                Artistas
+            </SideCategoryItem>
+        </div>
+
+        <!-- Buscador -->
+        <ul class="flex justify-between px-2 mb-2">
+            <SideMenuItem type="button">
+                <SearchIcon />
+            </SideMenuItem>
+            <SideMenuItem>
+                Recientes
+                <ListIcon />
+            </SideMenuItem>
+        </ul>
+
+        {playlists.map((playlist) => <SideMenuCard playlist={playlist} />)}
+    </div>
+</nav>
+
+<style>
+    .category-scroll {
+        overflow-x: scroll;
+    }
+
+    .category-scroll::-webkit-scrollbar {
+        width: 0;
+    }
+</style>

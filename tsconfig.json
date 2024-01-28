@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "F:/Programación/Desarrollo web/Astro/spotify-astro",
+    "baseUrl": ".",
     "paths": {
       "@/*": [
         "src/*"

@@ -1,6 +1,9 @@
 import { usePlayerStore } from "@/store/playerStore"
 import { useState, useRef, useEffect } from "react"
 
+import CurrentSong from "./CurrentSong";
+import { Slider } from "./Slider";
+
 export const Play = () => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" className="text-black icon icon-tabler icon-tabler-player-play-filled" width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M6 4v16a1 1 0 0 0 1.524 .852l13 -8a1 1 0 0 0 0 -1.704l-13 -8a1 1 0 0 0 -1.524 .852z" stroke-width="0" fill="currentColor" /></svg>
@@ -37,31 +40,68 @@ const Repeat = () => {
     )
 }
 
+const Microphone = () => {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-microphone-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 12.9a5 5 0 1 0 -3.902 -3.9" /><path d="M15 12.9l-3.902 -3.899l-7.513 8.584a2 2 0 1 0 2.827 2.83l8.588 -7.515z" /></svg>
+    )
+}
+
+const SongCard = () => {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-cards" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3.604 7.197l7.138 -3.109a.96 .96 0 0 1 1.27 .527l4.924 11.902a1 1 0 0 1 -.514 1.304l-7.137 3.109a.96 .96 0 0 1 -1.271 -.527l-4.924 -11.903a1 1 0 0 1 .514 -1.304z" /><path d="M15 4h1a1 1 0 0 1 1 1v3.5" /><path d="M20 6c.264 .112 .52 .217 .768 .315a1 1 0 0 1 .53 1.311l-2.298 5.374" /></svg>
+    )
+}
+
+const LineSong = () => {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-baseline-density-medium" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 20h16" /><path d="M4 12h16" /><path d="M4 4h16" /></svg>
+    )
+}
+
+const Speaker = () => {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-speaker" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 3m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z" /><path d="M12 14m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M12 7l0 .01" /></svg>
+    )
+}
+
+const SoundSwitch = () => {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-volume" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 8a5 5 0 0 1 0 8" /><path d="M17.7 5a9 9 0 0 1 0 14" /><path d="M6 15h-2a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1h2l3.5 -4.5a.8 .8 0 0 1 1.5 .5v14a.8 .8 0 0 1 -1.5 .5l-3.5 -4.5" /></svg>
+    )
+}
+
+const FullScreen = () => {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrows-diagonal" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M16 4l4 0l0 4" /><path d="M14 10l6 -6" /><path d="M8 20l-4 0l0 -4" /><path d="M4 20l6 -6" /></svg>
+    )
+}
+
 function Player() {
-    const { isPlaying, setIsPlaying } = usePlayerStore(state => state);
-    const [currentSong, setCurrentSong] = useState(null);
+    const { currentMusic, isPlaying, setIsPlaying } = usePlayerStore(state => state);
     const audioRef = useRef();
 
     useEffect(() => {
-        audioRef.current.src = '/music/1/01.mp3';
-    }, []);
+        isPlaying ? audioRef.current.play() : audioRef.current.pause();
+    }, [isPlaying]);
+
+    useEffect(() => {
+        const { song, playlist, songs } = currentMusic;
+
+        if (song) {
+            const src = `/music/${playlist.id}/0${song.id}.mp3`;
+            audioRef.current.src = src;
+            audioRef.current.play();
+        }
+    }, [currentMusic]);
 
     const handleClick = () => {
-        if (isPlaying) {
-            audioRef.current.pause();
-        } else {
-
-            audioRef.current.play();
-            audioRef.current.volume = 0.5;
-        }
-
         setIsPlaying(!isPlaying);
     }
 
     return (
         <div className='flex h-full flex-row justify-between items-center px-4 z-50'>
             {/* Current song information */}
-            <div className="w-1/4">Current song...</div>
+            <CurrentSong {...currentMusic.song} />
 
             {/* Player controls */}
             <div className='w-2/4 grid place-content-center gap-4 flex-1'>
@@ -84,8 +124,13 @@ function Player() {
                 </div>
             </div>
 
-            {/* Volumne controls */}
-            <div className="flex justify-end w-1/4">Volumen</div>
+            {/* Volumen controls */}
+            <div className="flex justify-end w-1/4">
+                <Slider defaultValue={[100]} max={100} min={0} className="w-1/4" onValueChange={(value) => {
+                    const [newVolume] = value
+                    audioRef.current.volume = newVolume / 100;
+                }} />
+            </div>
             <audio ref={audioRef}></audio>
         </div>
     )

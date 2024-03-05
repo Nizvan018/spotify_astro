@@ -21,7 +21,7 @@ function CardPlayButton({ id }) {
             .then(data => {
                 const { songs, playlist } = data;
                 setIsPlaying(true);
-                setCurrentMusic({ songs, playlist, song: songs[0] });
+                setCurrentMusic({ playlist, song: songs[0], songs });
             });
     }
 
@@ -38,4 +38,4 @@ function CardPlayButton({ id }) {
     )
 }
 
-export default CardPlayButton
+export default CardPlayButton;

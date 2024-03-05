@@ -1,21 +1,28 @@
-import { Pause, Play } from '@components/Player';
+import { Pause, Play } from '@/components/player/Player';
 import { usePlayerStore } from '@/store/playerStore';
 
 function CardPlayButton({ id }) {
     const { currentMusic, isPlaying, setIsPlaying, setCurrentMusic } = usePlayerStore();
 
     const handleClick = () => {
-        setCurrentMusic({
-            playlist: {
-                id
-            }
-        });
+        // if (isPlayingPlaylist && isPlaying) {
+        //     setIsPlaying(!isPlaying);
+        // } else if (!isPlayingPlaylist && !isPlaying) {
+        //     setIsPlaying(true);
+        // }
 
-        if (isPlayingPlaylist && isPlaying) {
-            setIsPlaying(!isPlaying);
-        } else if (!isPlayingPlaylist && !isPlaying) {
-            setIsPlaying(true);
+        if (isPlayingPlaylist) {
+            setIsPlaying(false)
+            return
         }
+
+        fetch(`/api/get_info_playlist.json?id=${id}`)
+            .then(res => res.json())
+            .then(data => {
+                const { songs, playlist } = data;
+                setIsPlaying(true);
+                setCurrentMusic({ playlist, song: songs[0], songs });
+            });
     }
 
     const isPlayingPlaylist = isPlaying && currentMusic?.playlist.id === id;
@@ -31,4 +38,4 @@ function CardPlayButton({ id }) {
     )
 }
 
-export default CardPlayButton
+export default CardPlayButton;

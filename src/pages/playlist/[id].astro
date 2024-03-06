@@ -1,7 +1,7 @@
 ---
 import Layout from "@layouts/Layout.astro";
-import SquarePlaylistCard from "@components/playlist/SquarePlaylistCard.astro";
-import PlaylistCard from "@components/playlist/PlaylistCard.astro";
+import MusicTable from "@/components/playlist/MusicTable.astro";
+import PlayButtonPlaylist from "@/components/playlist/PlayButtonPlaylist";
 
 import { allPlaylists, playlists, songs } from "@/lib/data";
 
@@ -42,6 +42,14 @@ const playlistSongs = songs.filter(
                 </p>
             </div>
         </header>
+
+        <section class="px-6 mb-6">
+            <PlayButtonPlaylist id={id} client:visible />
+        </section>
+
+        <section class="px-6">
+            <MusicTable songs={playlistSongs} />
+        </section>
 
         <div class="relative z-10 p-6"></div>
 

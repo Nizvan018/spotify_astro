@@ -10,6 +10,11 @@ function CardPlayButton({ id }) {
             return
         }
 
+        if (currentMusic?.playlist?.id == id) {
+            setIsPlaying(true);
+            return
+        }
+
         fetch(`/api/get_info_playlist.json?id=${id}`)
             .then(res => res.json())
             .then(data => {

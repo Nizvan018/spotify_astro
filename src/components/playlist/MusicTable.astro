@@ -1,4 +1,5 @@
 ---
+import PlaySongButton from "./PlaySongButton";
 import TimeIcon from "@icons/TimeIcon.astro";
 import PlayIcon from "@icons/PlayIcon.astro";
 import { type Song } from "@/lib/data";
@@ -24,10 +25,12 @@ const { songs } = Astro.props;
             songs.map((song, index) => (
                 <tr class="text-zinc-400 text-sm group hover:bg-zinc-800">
                     <td class="w-9 rounded-tl-md rounded-bl-md text-base pl-4 py-2">
-                        <span class="group-hover:hidden">{index + 1}</span>
-                        <button class="text-white hidden group-hover:block">
-                            <PlayIcon />
-                        </button>
+                        <PlaySongButton
+                            idPlaylist={song.albumId}
+                            idSong={song.id}
+                            index={index}
+                            client:load
+                        />
                     </td>
                     <td class="flex gap-2 px-4 py-2">
                         <picture class="w-11 h-11">

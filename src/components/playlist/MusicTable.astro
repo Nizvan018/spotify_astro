@@ -1,0 +1,60 @@
+---
+import PlaySongButton from "./PlaySongButton";
+import TimeIcon from "@icons/TimeIcon.astro";
+import PlayIcon from "@icons/PlayIcon.astro";
+import { type Song } from "@/lib/data";
+
+interface Props {
+    songs: Song[];
+}
+
+const { songs } = Astro.props;
+---
+
+<table class="table-auto text-left min-w-full divide-y divide-zinc-500/30">
+    <thead class="text-zinc-400 text-sm">
+        <th class="font-medium pl-4 py-2">#</th>
+        <th class="font-medium px-4 py-2">Título</th>
+        <th class="font-medium px-4 py-2">Álbum</th>
+        <th class="font-medium px-4 py-2"><TimeIcon /></th>
+    </thead>
+
+    <tbody>
+        <tr class="h-3"></tr>
+        {
+            songs.map((song, index) => (
+                <tr class="text-zinc-400 text-sm group hover:bg-zinc-800">
+                    <td class="w-9 rounded-tl-md rounded-bl-md text-base pl-4 py-2">
+                        <PlaySongButton
+                            idPlaylist={song.albumId}
+                            idSong={song.id}
+                            index={index}
+                            client:load
+                        />
+                    </td>
+                    <td class="flex gap-2 px-4 py-2">
+                        <picture class="w-11 h-11">
+                            <img
+                                class="rounded-md"
+                                src={song.image}
+                                alt={song.title}
+                            />
+                        </picture>
+                        <div class="flex flex-col">
+                            <h3 class="text-base text-white overflow-x-hidden text-nowrap">
+                                {song.title.length < 30
+                                    ? song.title
+                                    : song.title.substring(0, 30) + "..."}
+                            </h3>
+                            <span>{song.artists.join(", ")}</span>
+                        </div>
+                    </td>
+                    <td class="px-2 py-2">{song.album}</td>
+                    <td class="rounded-tr-md rounded-br-md px-2 py-2">
+                        {song.duration}
+                    </td>
+                </tr>
+            ))
+        }
+    </tbody>
+</table>

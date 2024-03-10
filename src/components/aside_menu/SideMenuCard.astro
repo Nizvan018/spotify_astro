@@ -1,5 +1,6 @@
 ---
 import type { Playlist } from "@/lib/data";
+import PlayingPlaylistIcon from "./PlayingPlaylistIcon";
 
 interface Props {
     playlist: Playlist;
@@ -25,5 +26,9 @@ const artistString = artists.join(", ");
     <div class="flex flex-auto flex-col truncate">
         <h4 class="font-medium">{title}</h4>
         <span class="text-sm text-zinc-400">{artistString}</span>
+    </div>
+
+    <div class='mr-2"'>
+        <PlayingPlaylistIcon id={id} client:visible />
     </div>
 </a>

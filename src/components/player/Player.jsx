@@ -72,9 +72,18 @@ const FullScreen = () => {
 }
 
 function Player() {
-    const { currentMusic, isPlaying, setIsPlaying, volume } = usePlayerStore(state => state);
+    const { setCurrentMusic, currentMusic, isPlaying, setIsPlaying, volume } = usePlayerStore(state => state);
+    const [ended, setEnded] = useState(false);
     const audioRef = useRef();
     const volumeRef = useRef(1);
+
+    useEffect(() => {
+        audioRef.current.addEventListener("ended", endedSong);
+
+        return () => {
+            audioRef.current.removeEventListener("ended", endedSong);
+        }
+    }, [currentMusic.index])
 
     useEffect(() => {
         isPlaying ? audioRef.current.play() : audioRef.current.pause();
@@ -91,12 +100,53 @@ function Player() {
             const src = `/music/${playlist.id}/0${song.id}.mp3`;
             audioRef.current.src = src;
             audioRef.current.volume = volume;
-            audioRef.current.play();
+
+            if (isPlaying) {
+                audioRef.current.play();
+            } else {
+                audioRef.current.currentTime = 0;
+            }
         }
     }, [currentMusic]);
 
     const handleClick = () => {
         setIsPlaying(!isPlaying);
+    }
+
+    const endedSong = () => {
+        const { playlist, index, songs } = currentMusic;
+
+        if (index < songs.length - 1) {
+            setCurrentMusic({ playlist: playlist, song: songs[index + 1], songs: songs, index: index + 1 });
+        } else {
+            setIsPlaying(false);
+            setCurrentMusic({ playlist: playlist, song: songs[0], songs: songs, index: 0 });
+        }
+    }
+
+    const handleSkipBack = () => {
+        const { playlist, index, songs } = currentMusic;
+
+        if (audioRef.current.currentTime > 3) {
+            audioRef.current.currentTime = 0;
+        } else {
+            if (index > 0) {
+                setCurrentMusic({ playlist: playlist, song: songs[index - 1], songs: songs, index: index - 1 });
+            } else {
+                setCurrentMusic({ playlist: playlist, song: songs[0], songs: songs, index: 0 });
+            }
+        }
+    }
+
+    const handleSkipForward = () => {
+        const { playlist, index, songs } = currentMusic;
+
+        if (index < songs.length - 1) {
+            setCurrentMusic({ playlist: playlist, song: songs[index + 1], songs: songs, index: index + 1 });
+        } else {
+            setIsPlaying(false);
+            setCurrentMusic({ playlist: playlist, song: songs[0], songs: songs, index: 0 });
+        }
     }
 
     return (
@@ -110,13 +160,13 @@ function Player() {
                     <button>
                         <Random />
                     </button>
-                    <button>
+                    <button onClick={handleSkipBack}>
                         <SkipBack />
                     </button>
                     <button className="p-2 rounded-full bg-white transition-transform hover:scale-105" onClick={handleClick}>
                         {isPlaying ? <Pause /> : < Play />}
                     </button>
-                    <button>
+                    <button onClick={handleSkipForward}>
                         <SkipForward />
                     </button>
                     <button>

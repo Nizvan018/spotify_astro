@@ -26,7 +26,7 @@ function CardPlayButton({ id }) {
             .then(data => {
                 const { songs, playlist } = data;
                 setIsPlaying(true);
-                setCurrentMusic({ playlist, song: songs[0], songs });
+                setCurrentMusic({ playlist, song: songs[0], songs, index: 0 });
             });
     }
 

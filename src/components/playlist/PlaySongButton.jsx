@@ -31,7 +31,7 @@ function PlayingPlaylistIcon({ idPlaylist, idSong, index }) {
             .then(data => {
                 const { songs, playlist } = data;
                 setIsPlaying(true);
-                setCurrentMusic({ playlist, song: songs[index], songs });
+                setCurrentMusic({ playlist, song: songs[index], songs, index });
             });
     }
 

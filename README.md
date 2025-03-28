@@ -28,7 +28,11 @@
 
 This project is a Spotify clone developed using Astro, which replicates the main functionalities of the original aplication: music playback, skipping tracks forwar and backward, adjusting the volume up and down, music paylist, and the cherry on the cake... Web Transitions!
 
-It is base on a project created by [midudev](https://github.com/midudev) but adapted to match Spotify's latest interface (at the time of development) and includes some additional features, such as scrolling through songs and the original behavior of Spotify. For instance, clicking the back button during the first few seconds of a song changes to the previous track, but after the initial seconds, the back button will simply restart the current song.
+It is base on a project created by [midudev](https://github.com/midudev) but adapted to match Spotify's latest interface (at the time of development) and includes some additional features, such as scrolling through songs and the original behavior of Spotify. For instance:
+
+* Add functionalit to skip tracks forwar and backward.
+* Clicking the back button during the first few seconds of a song changes to the previous track, but after the initial seconds, the back button will simply restart the current song.
+* The song switches to the next one when it ends.
 
 This project uses Astro, React, some Svelt code, TailwindCSS and Zustand for the global state.
 
